@@ -83,9 +83,7 @@ Return only questions.
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
 
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 
 # =====================================================
@@ -93,6 +91,7 @@ from langchain_groq import ChatGroq
 # =====================================================
 
 app = FastAPI(title="DocuVerse AI")
+print("APP STARTED")
 
 app.add_middleware(
     CORSMiddleware,
@@ -124,9 +123,6 @@ latest_insights = ""
 # =====================================================
 # MODELS
 # =====================================================
-# =====================================================
-# MODELS
-# =====================================================
 
 class QueryRequest(BaseModel):
     query: str
@@ -146,12 +142,11 @@ class SearchRequest(BaseModel):
 # HELPERS
 # =====================================================
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
-
 def get_embeddings():
-    return embeddings
+
+    return HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
 
 
 llm = ChatGroq(
@@ -180,11 +175,13 @@ def home():
 # UPLOAD PDF
 # =====================================================
 
-# Upload PDF (Updated)
 
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
 
+    
+    from langchain_huggingface import HuggingFaceEmbeddings
+    from langchain_community.vectorstores import Chroma
 
     try:
 
@@ -252,7 +249,7 @@ async def upload_pdf(file: UploadFile = File(...)):
             persist_directory=db_path
         )
 
-        vectorstores[file.filename] = vectorstore
+        current_document = file.filename
         print(
             "ALL DOCUMENTS:",
             list(vectorstores.keys())
