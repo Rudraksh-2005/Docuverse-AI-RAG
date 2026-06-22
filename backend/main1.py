@@ -1,4 +1,5 @@
 print("RUNNING BACKEND MAIN.PY")
+print("STEP 1")
 from multiprocessing import context
 import os
 import shutil
@@ -81,16 +82,20 @@ Answer:
 Return only questions.
 """
 
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+#from langchain_community.document_loaders import PyPDFLoader
+#from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from langchain_groq import ChatGroq
+
+from langchain_groq import ChatGroq
+print("STEP 2")
 
 # =====================================================
 # APP CONFIG
 # =====================================================
 
 app = FastAPI(title="DocuVerse AI")
+print("STEP 3")
 print("APP STARTED")
 
 app.add_middleware(
@@ -144,6 +149,7 @@ class SearchRequest(BaseModel):
 
 def get_embeddings():
     from langchain_huggingface import HuggingFaceEmbeddings
+
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
@@ -187,7 +193,8 @@ def home():
 async def upload_pdf(file: UploadFile = File(...)):
 
     
-    from langchain_huggingface import HuggingFaceEmbeddings
+    from langchain_community.document_loaders import PyPDFLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
     from langchain_community.vectorstores import Chroma
 
     try:
