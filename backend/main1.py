@@ -109,7 +109,7 @@ os.makedirs(
     exist_ok=True
 )
 
-
+vectorstores = {}
 vectorstore = None
 
 current_document = None
@@ -143,20 +143,27 @@ class SearchRequest(BaseModel):
 # =====================================================
 
 def get_embeddings():
-
+    from langchain_huggingface import HuggingFaceEmbeddings
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
 
-llm = ChatGroq(
-    model="llama-3.1-8b-instant",
-    temperature=0.3,
-    api_key=os.getenv("GROQ_API_KEY")
-)
+_llm = None
 
 def get_llm():
-    return llm
+
+    global _llm
+
+    if _llm is None:
+
+        _llm = ChatGroq(
+            model="llama-3.1-8b-instant",
+            temperature=0.3,
+            api_key=os.getenv("GROQ_API_KEY")
+        )
+
+    return _llm
 
 
 # =====================================================
