@@ -1,5 +1,4 @@
-print("RUNNING BACKEND MAIN.PY")
-print("STEP 1")
+
 
 
 
@@ -19,9 +18,7 @@ from fastapi.responses import FileResponse
 
 load_dotenv()
 
-print("GROQ KEY =", repr(os.getenv("GROQ_API_KEY")))
 
-print("KEY FOUND:", os.getenv("GROQ_API_KEY"))
 # from services.rag_services import (
 #     get_embeddings,
 #     load_vectorstore
@@ -93,7 +90,7 @@ Return only questions.
 from langchain_groq import ChatGroq
 
 from langchain_groq import ChatGroq
-print("STEP 2")
+
 
 # =====================================================
 # APP CONFIG
