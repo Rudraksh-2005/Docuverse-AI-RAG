@@ -27,6 +27,7 @@ https://console.groq.com/keys
 5️⃣ Run Backend
 From the project root:
 
+Currently run this command only 
 python -m uvicorn backend.main1:app --reload
 Backend URL:
 
