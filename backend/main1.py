@@ -1,3 +1,5 @@
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from multiprocessing import context
 import os
 import shutil
@@ -93,6 +95,7 @@ from langchain_groq import ChatGroq
 # =====================================================
 
 app = FastAPI(title="DocuVerse AI")
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -178,12 +181,15 @@ def get_llm():
 # HOME
 # =====================================================
 
+#@app.get("/")
+#def home():
+ #   return {
+  #      "status": "running",
+   #     "name": "DocuVerse AI"
+    #} 
 @app.get("/")
 def home():
-    return {
-        "status": "running",
-        "name": "DocuVerse AI"
-    }
+    return FileResponse("frontend/front_end1.html")
 
 
 # =====================================================
