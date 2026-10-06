@@ -5,7 +5,7 @@ import os
 import shutil
 import uvicorn
 
-from dotenv import load_dotenv
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -14,8 +14,14 @@ from backend.services.export_service import create_report
 
 from fastapi.responses import FileResponse
 
-load_dotenv()
+from dotenv import load_dotenv
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
+
+print("GROQ:", os.getenv("GROQ_API_KEY"))
+print("GOOGLE:", os.getenv("GOOGLE_API_KEY"))
 
 # from services.rag_services import (
 #     get_embeddings,
@@ -169,7 +175,7 @@ def get_llm():
     if _llm is None:
 
         _llm = ChatGroq(
-            model="llama-3.1-8b-instant",
+            model=os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"),
             temperature=0.3,
             api_key=os.getenv("GROQ_API_KEY")
         )
