@@ -1,17 +1,11 @@
 // Backend API Configuration:
-// - Uses custom backend URL if stored in localStorage ('DOCUVERSE_API_URL').
-// - If running on localhost or served from Render: uses window.location.origin.
-let API_URL = localStorage.getItem("DOCUVERSE_API_URL") || window.location.origin;
+// - Uses localhost when running locally
+// - Automatically points to live Render backend when deployed on Vercel
+const RENDER_BACKEND_URL = "https://docuverse-ai-rag-backend.onrender.com";
 
-window.setBackendUrl = function(url) {
-    if (url) {
-        localStorage.setItem("DOCUVERSE_API_URL", url.trim().replace(/\/$/, ""));
-        location.reload();
-    } else {
-        localStorage.removeItem("DOCUVERSE_API_URL");
-        location.reload();
-    }
-};
+const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? window.location.origin
+    : RENDER_BACKEND_URL;
 
 
 let questionCount = 0;
@@ -38,17 +32,6 @@ document
 
 
 async function uploadDocument(){
-
-    if (window.location.hostname.endsWith("vercel.app") && (!localStorage.getItem("DOCUVERSE_API_URL") || API_URL === window.location.origin)) {
-        const backend = prompt("You are running on Vercel. Please enter your Render Backend URL (e.g. https://your-service.onrender.com):");
-        if (backend && backend.trim()) {
-            localStorage.setItem("DOCUVERSE_API_URL", backend.trim().replace(/\/$/, ""));
-            API_URL = backend.trim().replace(/\/$/, "");
-        } else {
-            alert("A Render backend URL is required to process PDFs on Vercel.");
-            return;
-        }
-    }
 
     const file =
         document
