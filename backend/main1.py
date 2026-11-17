@@ -196,7 +196,7 @@ def get_llm():
     #} 
 @app.get("/")
 def home():
-    return FileResponse("frontend/front_end1.html")
+    return FileResponse("frontend/index.html")
 
 
 # =====================================================
