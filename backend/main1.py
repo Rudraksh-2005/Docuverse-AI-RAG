@@ -267,6 +267,9 @@ async def upload_pdf(file: UploadFile = File(...)):
             file.filename.replace(".pdf", "")
         )
 
+        if os.path.exists(db_path):
+            shutil.rmtree(db_path, ignore_errors=True)
+
         Chroma.from_documents(
             documents=chunks,
             embedding=embeddings,

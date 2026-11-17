@@ -1,5 +1,17 @@
-const API_URL = window.location.origin;
-//const API_URL = "http://127.0.0.1:8000";
+// Backend API Configuration:
+// - Uses custom backend URL if stored in localStorage ('DOCUVERSE_API_URL').
+// - If running on localhost or served from Render: uses window.location.origin.
+let API_URL = localStorage.getItem("DOCUVERSE_API_URL") || window.location.origin;
+
+window.setBackendUrl = function(url) {
+    if (url) {
+        localStorage.setItem("DOCUVERSE_API_URL", url.trim().replace(/\/$/, ""));
+        location.reload();
+    } else {
+        localStorage.removeItem("DOCUVERSE_API_URL");
+        location.reload();
+    }
+};
 
 
 let questionCount = 0;
@@ -26,6 +38,17 @@ document
 
 
 async function uploadDocument(){
+
+    if (window.location.hostname.endsWith("vercel.app") && (!localStorage.getItem("DOCUVERSE_API_URL") || API_URL === window.location.origin)) {
+        const backend = prompt("You are running on Vercel. Please enter your Render Backend URL (e.g. https://your-service.onrender.com):");
+        if (backend && backend.trim()) {
+            localStorage.setItem("DOCUVERSE_API_URL", backend.trim().replace(/\/$/, ""));
+            API_URL = backend.trim().replace(/\/$/, "");
+        } else {
+            alert("A Render backend URL is required to process PDFs on Vercel.");
+            return;
+        }
+    }
 
     const file =
         document
@@ -60,8 +83,16 @@ async function uploadDocument(){
                 }
             );
 
+        if (!response.ok) {
+            throw new Error(`Server returned HTTP ${response.status} (${response.statusText}). Make sure your backend API is running at ${API_URL}`);
+        }
+
         const data =
             await response.json();
+
+        if (data.status === "error") {
+            throw new Error(data.message || "Failed to process document");
+        }
 
         document
         .getElementById("pagesCount")
@@ -101,6 +132,8 @@ async function uploadDocument(){
         .getElementById("statusText")
         .innerText =
         "Failed";
+
+        alert(`Upload failed: ${error.message}`);
     }
 }
 
