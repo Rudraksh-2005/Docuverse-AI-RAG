@@ -1056,6 +1056,9 @@ def test_groq():
             "success": False,
             "error": str(e)
         }
+
+# Mount static files at root as well so relative paths (style.css, app.js, Ui.js) work locally & on Render
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
     
 
 # =====================================================
