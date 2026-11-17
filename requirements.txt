@@ -6,10 +6,9 @@ python-multipart
 langchain
 langchain-community
 langchain-groq
-langchain-huggingface
+langchain-google-genai
 
 chromadb
-sentence-transformers
 
 pypdf
 reportlab
