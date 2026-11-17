@@ -109,4 +109,32 @@
     if (e.key === "Enter" && chatInput.value.trim()) dismissEmptyState();
   });
 
+  /* ---------- MOBILE TAB SWITCHER ---------- */
+  const tabChatBtn = document.getElementById("tabChatBtn");
+  const tabDocBtn = document.getElementById("tabDocBtn");
+  const mobileBackChatBtn = document.getElementById("mobileBackChatBtn");
+  const workspaceEl = document.querySelector(".workspace");
+
+  function showChat() {
+    if (tabChatBtn) tabChatBtn.classList.add("active");
+    if (tabDocBtn) tabDocBtn.classList.remove("active");
+    if (workspaceEl) {
+      workspaceEl.classList.remove("show-mobile-doc");
+      workspaceEl.classList.add("show-mobile-chat");
+    }
+  }
+
+  function showDoc() {
+    if (tabDocBtn) tabDocBtn.classList.add("active");
+    if (tabChatBtn) tabChatBtn.classList.remove("active");
+    if (workspaceEl) {
+      workspaceEl.classList.remove("show-mobile-chat");
+      workspaceEl.classList.add("show-mobile-doc");
+    }
+  }
+
+  if (tabChatBtn) tabChatBtn.addEventListener("click", showChat);
+  if (tabDocBtn) tabDocBtn.addEventListener("click", showDoc);
+  if (mobileBackChatBtn) mobileBackChatBtn.addEventListener("click", showChat);
+
 })();

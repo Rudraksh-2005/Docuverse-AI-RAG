@@ -44,12 +44,21 @@
     <section class="center-col">
 
       <div class="upload-bar">
-        <label class="file-label" for="pdfFile">
-          📎 <span id="fileNameTag">Choose a PDF…</span>
-        </label>
-        <input type="file" id="pdfFile" accept=".pdf" hidden>
-        <button id="uploadBtn" class="upload-btn">Upload Document</button>
-        <span id="statusText" class="status-text">Ready</span>
+        <div class="upload-bar-file">
+          <label class="file-label" for="pdfFile">
+            📎 <span id="fileNameTag">Choose a PDF…</span>
+          </label>
+          <input type="file" id="pdfFile" accept=".pdf" hidden>
+        </div>
+        <div class="upload-bar-action">
+          <button id="uploadBtn" class="upload-btn">Upload Document</button>
+          <span id="statusText" class="status-text">Ready</span>
+        </div>
+      </div>
+
+      <div class="mobile-tabs" id="mobileTabs">
+        <button class="mobile-tab-btn active" id="tabChatBtn">💬 Chat</button>
+        <button class="mobile-tab-btn" id="tabDocBtn">📄 Document</button>
       </div>
 
       <div class="chat-shell">
@@ -80,6 +89,7 @@
 
         <div class="doc-panel-header">
           <h3>Your Documents</h3>
+          <button class="mobile-back-chat-btn" id="mobileBackChatBtn">💬 Back to Chat</button>
         </div>
 
         <div id="documentsList"></div>
